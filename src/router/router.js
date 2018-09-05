@@ -2,7 +2,8 @@ import Home from '@/views/Home.vue'
 
 export default [
   {
-    path: '/',
+		path: '/',
+		alias: '/home_page', // 别名
     name: 'home', // 命名路由
     component: Home
   },
@@ -16,12 +17,14 @@ export default [
   },
   // 动态路由
   {
-    path: '/async/:name',
+		path: '/async/:name',
+		name: 'async',
     component: () => import('@/views/async.vue')
   },
   // 嵌套路由
   {
-    path: '/parent',
+		path: '/parent',
+		name: 'parent',
     component: () => import('@/views/parent.vue'),
     children: [
       {
@@ -29,5 +32,19 @@ export default [
         component: () => import('@/views/child.vue')
       }
     ]
-  }
+	},
+	// 命名视图
+	{
+		path: '/named_view',
+		components: {
+			default: () => import('@/views/child.vue'),
+			email: () => import('@/views/email.vue'),
+			tel: () => import('@/views/tel.vue')
+		}
+	},
+	// 重定向
+	{
+		path: '/main',
+		redirect: to => '/'
+	}
 ]
