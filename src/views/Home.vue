@@ -4,6 +4,9 @@
 		<button @click="handleClick('push')">跳转parent</button>
 		<button @click="handleClick('async')">跳转async</button>
 		<button @click="handleClick('replace')">替换parent</button>
+		<div>
+			<b>{{food}}</b>
+		</div>
   </div>
 </template>
 
@@ -15,6 +18,12 @@ export default {
   name: 'home',
   components: {
     HelloWorld
+	},
+	props: {
+		food: {
+			type: String,
+			default: 'apple'
+		}
 	},
 	methods: {
 		// 可编程路由
