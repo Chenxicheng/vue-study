@@ -13,7 +13,13 @@ export default [
 		alias: '/home_page', // 别名
     name: 'home', // 命名路由
 		component: Home,
-		props: route => ({food: route.query.name})
+		props: route => ({food: route.query.name}),
+		// 路由守卫
+		beforeEnter: (to, from, next) => {
+			// if (from.name === 'about') alert('这是从about来的')
+			// else alert('这不是从about来的')
+			next()
+		}
   },
   {
     path: '/about',
@@ -24,6 +30,9 @@ export default [
 		component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue'),
 		props: {
 			food: 'banana'
+		},
+		meta: {
+			title: '关于'
 		}
   },
   // 动态路由
@@ -59,6 +68,11 @@ export default [
 	{
 		path: '/main',
 		redirect: to => '/'
+	},
+	{
+		path: '/login',
+		name: 'login',
+		component: () => import('@/views/login.vue')
 	},
 	{
 		path: '*',

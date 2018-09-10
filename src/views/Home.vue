@@ -25,6 +25,22 @@ export default {
 			default: 'apple'
 		}
 	},
+	// 组件内守卫
+	// 页面进入前执行方法
+	beforeRouteEnter (to, from, next) {
+		// 此处页面还未渲染，不能使用this
+		// 若想使用this, next(vm => {})
+		next(vm => {
+			console.log(vm)
+		})
+	},
+	// 页面离开时执行方法
+	beforeRouteLeave (to, from, next) {
+		// 此处可以使用this
+		const leave = confirm('您确定离开')
+		if (leave) next()
+		else next(false)
+	},
 	methods: {
 		// 可编程路由
 		handleClick (type) {
