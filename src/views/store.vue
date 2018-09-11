@@ -11,24 +11,29 @@
 		<p>
 			{{ userName }}
 		</p> -->
-		<!-- <p>
+		<p>
 			appName:  {{ appName }}
-		</p> -->
+		</p>
 		<p>
 			userName： {{ userName }}
 		</p>
-		<!-- <p>
+		<p>
 			appNameWithVersion : {{ appNameWithVersion }}
-		</p> -->
+		</p>
 		<p>
 			userNameFirstLetter: {{ firstLetter }}
 		</p>
+
+		<p>
+			<button @click="handleChangeAppName">修改appName</button>
+		</p>
+		<p>{{ appVersion }}</p>
 	</div>
 </template>
 <script>
 import AInput from '_c/AInput.vue'
 import AShow from '_c/AShow.vue'
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 // 命名空间引入
 // import { createNamespacedHelpers } from 'vuex'
 // const { mapState, mapGetters } = createNamespacedHelpers('user')
@@ -51,31 +56,32 @@ export default {
 		// 	'appName'
 		// ])
 		// 对象模式, 为一个回调函数，传入state参数
-		// ...mapState({
-		// 	appName: state => state.appName,
-		// 	userName: state => state.user.userName
-		// })
+		...mapState({
+			// appName: state => state.appName,
+			userName: state => state.user.userName,
+			appVersion: state => state.appVersion
+		}),
 		// 命名空间模式，导入模块, 不需要写模块名称
 		// ...mapState({
 		// 	userName: state => state.userName
 		// })
 		// 非命名空间，引入模块，不引入createNamespacedHelpers， 直接使用mapState
-		...mapState('user',{
-			userName: state => state.userName
-		}),
+		// ...mapState('user',{
+		// 	userName: state => state.userName
+		// }),
 		// 根据$store.state 获取数据
-		// appName () {
-		// 	return this.$store.state.appName
-		// },
+		appName () {
+			return this.$store.state.appName
+		},
 		// userName () {
 		// 	return this.$store.state.user.userName
 		// }
 
 		// getters 使用
 		// $store.getters获取数据
-		// appNameWithVersion () {
-		// 	return this.$store.getters.appNameWithVersion
-		// },
+		appNameWithVersion () {
+			return this.$store.getters.appNameWithVersion
+		},
 		// mapGetters 数组模式
 		// ...mapGetters([
 		// 	'appNameWithVersion'
@@ -91,8 +97,26 @@ export default {
 		}
 	},
 	methods: {
+		...mapMutations([
+			'SET_APP_NAME'
+		]),
 		handleInput (val) {
 			this.inputValue = val
+		},
+		handleChangeAppName () {
+			// 通过commit修改state中的属性值，在mutations中注册方法
+			// 1. 传入两个参数，commit(mutations中的方法名，参数)
+			// this.$store.commit('SET_APP_NAME', {
+			// 	appName: 'newAppName'
+			// })
+			// 2. 传入对象形式，type->方法名 
+			// this.$store.commit({
+			// 	type: 'SET_APP_NAME',
+			// 	appName: 'newAppName'
+			// })
+			this.$store.commit('SET_APP_VERSION')
+			// 3. 使用mapMutations, 直接通过this调用注册的方法
+			this.SET_APP_NAME({appName: 'newAppName'})
 		}
 	}
 }
