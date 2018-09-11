@@ -28,12 +28,19 @@
 			<button @click="handleChangeAppName">修改appName</button>
 		</p>
 		<p>{{ appVersion }}</p>
+		<p>
+			<button @click="handleChangeUserName">修改userName</button>
+		</p>
+		<p>
+			<button @click="registerModule">动态注册模块</button>
+		</p>
+		<p v-for="(li, index) in todoList" :key="index">{{ li }}</p>
 	</div>
 </template>
 <script>
 import AInput from '_c/AInput.vue'
 import AShow from '_c/AShow.vue'
-import { mapState, mapGetters, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 // 命名空间引入
 // import { createNamespacedHelpers } from 'vuex'
 // const { mapState, mapGetters } = createNamespacedHelpers('user')
@@ -59,7 +66,8 @@ export default {
 		...mapState({
 			// appName: state => state.appName,
 			userName: state => state.user.userName,
-			appVersion: state => state.appVersion
+			appVersion: state => state.appVersion,
+			todoList: state => state.user.todo ? state.user.todo.todoList : []
 		}),
 		// 命名空间模式，导入模块, 不需要写模块名称
 		// ...mapState({
@@ -87,7 +95,7 @@ export default {
 		// 	'appNameWithVersion'
 		// ]),
 		// 有模块模式
-		...mapGetters('user', [
+		...mapGetters([
 			'firstLetter'
 		]),
 		// 命名空间引入, 若命名空间未设定或为false，可直接引入模块getters中的属性值
@@ -98,7 +106,11 @@ export default {
 	},
 	methods: {
 		...mapMutations([
-			'SET_APP_NAME'
+			'SET_APP_NAME',
+			'SET_USER_NAME'
+		]),
+		...mapActions([
+			'updateAppName'
 		]),
 		handleInput (val) {
 			this.inputValue = val
@@ -116,7 +128,26 @@ export default {
 			// })
 			this.$store.commit('SET_APP_VERSION')
 			// 3. 使用mapMutations, 直接通过this调用注册的方法
-			this.SET_APP_NAME({appName: 'newAppName'})
+			// this.SET_APP_NAME({appName: 'newAppName'})
+
+			// actions 使用, 若使用this.$store.dispatch('updateAppName', params)
+			this.updateAppName()
+		},
+		handleChangeUserName () {
+			// 模块mutation使用
+			this.SET_USER_NAME('Dashwood')
+		},
+		registerModule () {
+			// 动态注册模块，
+			// 将todo注册在user模块中['user', 'todo']
+			this.$store.registerModule(['user', 'todo'], {
+				state: {
+					todoList: [
+						'学习mutation',
+						'学习actions'
+					]
+				}
+			})
 		}
 	}
 }

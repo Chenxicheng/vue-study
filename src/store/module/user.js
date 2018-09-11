@@ -10,15 +10,26 @@ const getters = {
 }
 
 const mutations = {
-  //
+  SET_USER_NAME (state, params) {
+		state.userName = params
+	}
 }
 const actions = {
-  //
+  updateUserName ({ commit, state, rootState, dispatch }) {
+		// rootState.appName
+		// dispatch('xxx')
+	},
+	xxx () {
+
+	}
 }
 export default {
-	namespaced: true, // 命名空间，使该模块更佳密闭
+	namespaced: false, // 命名空间，使该模块更佳密闭
 	state,
 	getters,
   mutations,
-  actions
+	actions,
+	modules: {
+		 // 
+	}
 }
