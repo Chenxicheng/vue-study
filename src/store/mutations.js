@@ -8,6 +8,9 @@ const mutations = {
 	SET_APP_VERSION (state) {
 		// 在state未定义appVersion属性值，可通过Vue.set()方法进行定义，响应式编程
 		Vue.set(state, 'appVersion', 'v2.0')
+	},
+	SET_STATE_VALUE (state, params) {
+		state.stateValue = params
 	}
 }
 

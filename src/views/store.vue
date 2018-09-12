@@ -34,6 +34,15 @@
 		<p>
 			<button @click="registerModule">动态注册模块</button>
 		</p>
+		<p>
+			vuex双向绑定
+			<!-- 1. 使用以下方式 -->
+			<!-- <a-input @input="handleStateValueChange" :value="stateValue"/> -->
+			<!-- 1. v-module 方式 -->
+			<a-input v-model="stateValue"/>
+			{{ stateValue }}
+		</p>
+
 		<p v-for="(li, index) in todoList" :key="index">{{ li }}</p>
 	</div>
 </template>
@@ -68,7 +77,18 @@ export default {
 			userName: state => state.user.userName,
 			appVersion: state => state.appVersion,
 			todoList: state => state.user.todo ? state.user.todo.todoList : []
+			// stateValue: state => state.stateValue vuex双向绑定方式1
 		}),
+		// vuex 双向绑定方式2
+		stateValue: {
+			get () {
+				return this.$store.state.stateValue
+			},
+			set (value) {
+				 this.SET_STATE_VALUE(value)
+			}
+		},
+
 		// 命名空间模式，导入模块, 不需要写模块名称
 		// ...mapState({
 		// 	userName: state => state.userName
@@ -107,7 +127,8 @@ export default {
 	methods: {
 		...mapMutations([
 			'SET_APP_NAME',
-			'SET_USER_NAME'
+			'SET_USER_NAME',
+			'SET_STATE_VALUE'
 		]),
 		...mapActions([
 			'updateAppName'
@@ -136,6 +157,7 @@ export default {
 		handleChangeUserName () {
 			// 模块mutation使用
 			this.SET_USER_NAME('Dashwood')
+			// this.$store.state.user.userName = 'haha' 错误的方法
 		},
 		registerModule () {
 			// 动态注册模块，
@@ -148,6 +170,9 @@ export default {
 					]
 				}
 			})
+		},
+		handleStateValueChange (val) {
+			// this.SET_STATE_VALUE(val)
 		}
 	}
 }
