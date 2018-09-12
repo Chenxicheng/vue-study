@@ -21,50 +21,49 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.all('*', (req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*')
-//   res.header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type')
-//   res.header('Access-Control-Allow-Methods','PUT,POST,GET,DELETE,OPTIONS')
-//   next()
-// })
+app.all('*', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type')
+  res.header('Access-Control-Allow-Methods','PUT,POST,GET,DELETE,OPTIONS')
+  next()
+})
 
-const whiteListUrl = {
-  get: [
-  ],
-  post: [
-    '/index/login',
-  ]
-}
+// const whiteListUrl = {
+//   get: [
+//   ],
+//   post: [
+//     '/index/login',
+//   ]
+// }
 
 const hasOneOf = (str, arr) => {
   return arr.some(item => item.includes(str))
 }
 
-app.all('*', (req, res, next) => {
-  // let method = req.method.toLowerCase()
-  // let path = req.path
-  // if(whiteListUrl[method] && hasOneOf(path, whiteListUrl[method])) next()
-  // else {
-  //   const token = req.headers.authorization
-  //   if (!token) res.status(401).send('there is no token, please login')
-  //   else {
-  //     jwt.verify(token, 'abcd', (error, decode) => {
-  //       if (error) res.send({
-  //         code: 401,
-  //         mes: 'token error',
-  //         data: {}
-  //       })
-  //       else {
-  //         req.userName = decode.name
-  //         next()
-  //       }
-  //     })
-  //   }
-	// }
-	next()
-})
+// app.all('*', (req, res, next) => {
+//   let method = req.method.toLowerCase()
+//   let path = req.path
+//   if(whiteListUrl[method] && hasOneOf(path, whiteListUrl[method])) next()
+//   else {
+//     const token = req.headers.authorization
+//     if (!token) res.status(401).send('there is no token, please login')
+//     else {
+//       jwt.verify(token, 'abcd', (error, decode) => {
+//         if (error) res.send({
+//           code: 401,
+//           mes: 'token error',
+//           data: {}
+//         })
+//         else {
+//           req.userName = decode.name
+//           next()
+//         }
+//       })
+//     }
+// 	}
+// })
 
-app.use('/index', indexRouter);
+app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/data', dataRouter);
 

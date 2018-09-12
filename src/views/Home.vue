@@ -7,13 +7,18 @@
 		<div>
 			<b>{{food}}</b>
 		</div>
+		<div>
+			<button @click="getInfo">获取用户信息</button>
+		</div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
-
+// import axios from 'axios'
+import { getUserInfo } from '@/api/user'
+ 
 export default {
   name: 'home',
   components: {
@@ -61,6 +66,14 @@ export default {
 				params: {
 					name: 'cxc'
 				}
+			})
+		},
+		getInfo () {
+			// axios.post('http://localhost:3000/getUserInfo', { userId: '1' }).then(res => {
+			// 	console.log(res)
+			// })
+			getUserInfo({userId: 1}).then(res => {
+				console.log(res)
 			})
 		}
 	}
