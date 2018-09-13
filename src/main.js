@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Bus from './lib/bus'
+if (process.env.NODE_ENV !== 'production') require('./mock') 
 
 // 状态管理bus 使用
 Vue.prototype.$bus = Bus

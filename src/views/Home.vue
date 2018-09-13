@@ -8,7 +8,8 @@
 			<b>{{food}}</b>
 		</div>
 		<div>
-			<button @click="getInfo">获取用户信息</button>
+			<button @click="getInfo" :style="{background: bgColor}">获取用户信息</button>
+			<img :src="url" alt="">
 		</div>
   </div>
 </template>
@@ -28,6 +29,12 @@ export default {
 		food: {
 			type: String,
 			default: 'apple'
+		}
+	},
+	data () {
+		return {
+			url: '',
+			bgColor: ''
 		}
 	},
 	// 组件内守卫
@@ -73,7 +80,9 @@ export default {
 			// 	console.log(res)
 			// })
 			getUserInfo({userId: 1}).then(res => {
-				console.log(res)
+				console.log(res.data)
+				this.url = res.data.img
+				this.bgColor = res.data.color
 			})
 		}
 	}
